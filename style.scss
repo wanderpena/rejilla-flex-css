@@ -1,0 +1,111 @@
+// variables
+$size-container: 73.333rem !default;
+$col-padding: 0.9375rem !default;
+$cols: 12 !default;
+$gutter-x: $col-padding;
+$gutter-y: 0;
+
+// mediaqueries
+
+// breakpoint del sistema de columna
+$mq: (
+  xs: 0,
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px,
+  xxl: 1400px
+)!default;
+
+$sizes: 0, 576px, 768px, 992px, 1200px, 1400px;
+
+@mixin make-container{
+  max-width: $size-container;
+  width: min($size-container - $col-padding, 1400px);
+  margin-inline: auto;
+  padding-left: $col-padding;
+  padding-right: $col-padding;
+}
+
+*,
+*:after,
+*:before {
+  box-sizing: border-box;
+}
+
+body,
+html {
+  font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+    "Courier New", monospace;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  min-height: 100vh;
+}
+.main {
+  padding: 100px 25px;
+}
+
+.demo {
+  font-size: 0.75em;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #ddd;
+  color: #444;
+  padding: 1rem;
+  margin: 0.25rem;
+  box-sizing: border-box;
+  border-radius: 0.25rem;
+}
+
+.container {
+ max-width: $size-container;
+  margin-inline: auto;
+  padding-left: $col-padding;
+  padding-right: $col-padding;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: $gutter-y * -1;
+  margin-right: $gutter-x * -0.5;
+  margin-left: $gutter-x * -0.5;
+  &:not(:last-child) {
+    margin-bottom: calc(1.5rem - 0.75rem);
+  }
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+[class*="col-"] {
+  flex: 1 0 0%;
+}
+
+// Inicio del sistema de columnas
+@for $i from 1 through $cols {
+      .col-#{$i} {
+        flex: 0 0 ($i * 100% / $cols);
+        max-width: ($i * 100% / $cols);
+      }
+    }
+
+
+
+// Inicio del sistema de columnas con breakpoint
+@each $size, $screen-size in $mq {
+  @media all and (min-width: $screen-size) {
+    @for $i from 1 through $cols {
+      .col-#{$size}-#{$i*1} {
+        flex: 0 0 ($i * 100% / $cols);
+        max-width: ($i * 100% / $cols);
+      }
+    }
+  }
+}
